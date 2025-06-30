@@ -1,0 +1,45 @@
+import os
+import zipfile
+
+# Define folder structure
+base_dir = "/mnt/data/ohm-ai-openhands"
+folders = ["frontend", "backend", "model", "docs", "public"]
+
+# Create directories
+os.makedirs(base_dir, exist_ok=True)
+for folder in folders:
+    os.makedirs(os.path.join(base_dir, folder), exist_ok=True)
+
+# Create README.md content
+readme_content = """# OHM AI – Open AI Hands Model
+
+**Expressing endless.**  
+An open-source conversational AI platform that helps people share ideas, talent, and emotions freely.
+
+## Structure
+- `frontend/`: Chat UI (React or HTML)
+- `backend/`: API logic (FastAPI or Node.js)
+- `model/`: LLM models like Mistral or LLaMA
+- `docs/`: Roadmap, mission, and contribution guide
+
+Built with ❤️ by Nagul Shareef Sheik
+"""
+
+# Write README.md
+with open(os.path.join(base_dir, "README.md"), "w") as f:
+    f.write(readme_content)
+
+# Write LICENSE placeholder
+with open(os.path.join(base_dir, "LICENSE"), "w") as f:
+    f.write("MIT License")
+
+# Create zip file
+zip_path = "/mnt/data/OHM-AI-Starter.zip"
+with zipfile.ZipFile(zip_path, "w") as zipf:
+    for root, dirs, files in os.walk(base_dir):
+        for file in files:
+            file_path = os.path.join(root, file)
+            arcname = os.path.relpath(file_path, base_dir)
+            zipf.write(file_path, arcname)
+
+zip_path
